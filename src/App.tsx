@@ -67,7 +67,7 @@ function App() {
         <div className="max-w-6xl mx-auto space-y-8">
           <Chatbot onRecordAdded={loadRecords} onClinicSaved={() => {}} />
           <ClinicDataManager />
-          <PatientRecordForm onRecordAdded={loadRecords} recordsUpdated={records.length} />
+          <PatientRecordForm onRecordAdded={loadRecords} />
           <PatientRecordList records={records} onRecordDeleted={loadRecords} />
         </div>
         

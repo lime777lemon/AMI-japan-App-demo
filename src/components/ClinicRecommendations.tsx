@@ -9,7 +9,7 @@ interface ClinicRecommendationsProps {
 }
 
 function ClinicRecommendations({ clinics, symptom, onClinicSaved }: ClinicRecommendationsProps) {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
 
   if (clinics.length === 0) return null;
 
@@ -19,17 +19,6 @@ function ClinicRecommendations({ clinics, symptom, onClinicSaved }: ClinicRecomm
       onClinicSaved();
     }
     alert(language === 'ja' ? 'クリニック情報を保存しました' : 'Clinic information saved');
-  };
-
-  const formatDateTime = (isoString: string): string => {
-    const date = new Date(isoString);
-    return date.toLocaleString(language === 'ja' ? 'ja-JP' : 'en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
   };
 
   return (

@@ -5,10 +5,9 @@ import { useLanguage } from '../contexts/LanguageContext';
 
 interface PatientRecordFormProps {
   onRecordAdded: () => void;
-  recordsUpdated?: boolean;
 }
 
-function PatientRecordForm({ onRecordAdded, recordsUpdated }: PatientRecordFormProps) {
+function PatientRecordForm({ onRecordAdded }: PatientRecordFormProps) {
   const { t, language } = useLanguage();
   const [patientWords, setPatientWords] = useState('');
   const [recordedBy, setRecordedBy] = useState('');
@@ -28,10 +27,14 @@ function PatientRecordForm({ onRecordAdded, recordsUpdated }: PatientRecordFormP
     loadChatbotHistory();
   }, []);
 
-  // カルテが更新されたときに履歴を更新
+  // 定期的に履歴を更新（カルテが追加された場合に備えて）
   useEffect(() => {
-    loadChatbotHistory();
-  }, [recordsUpdated]);
+    const interval = setInterval(() => {
+      loadChatbotHistory();
+    }, 2000); // 2秒ごとに更新
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
