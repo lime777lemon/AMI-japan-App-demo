@@ -1,19 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PatientRecord } from '../types/patientRecord';
-import { saveRecord } from '../utils/storage';
+import { saveRecord, getRecords } from '../utils/storage';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface PatientRecordFormProps {
   onRecordAdded: () => void;
+  recordsUpdated?: boolean;
 }
 
-function PatientRecordForm({ onRecordAdded }: PatientRecordFormProps) {
-  const { t } = useLanguage();
+function PatientRecordForm({ onRecordAdded, recordsUpdated }: PatientRecordFormProps) {
+  const { t, language } = useLanguage();
   const [patientWords, setPatientWords] = useState('');
   const [recordedBy, setRecordedBy] = useState('');
   const [patientId, setPatientId] = useState('');
   const [patientName, setPatientName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [chatbotHistory, setChatbotHistory] = useState<PatientRecord[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
+
+  const loadChatbotHistory = () => {
+    const records = getRecords();
+    const chatbotRecords = records.filter(r => r.recordedBy === 'AI Chatbot');
+    setChatbotHistory(chatbotRecords.slice(0, 5)); // 最新5件
+  };
+
+  useEffect(() => {
+    loadChatbotHistory();
+  }, []);
+
+  // カルテが更新されたときに履歴を更新
+  useEffect(() => {
+    loadChatbotHistory();
+  }, [recordsUpdated]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,12 +62,81 @@ function PatientRecordForm({ onRecordAdded }: PatientRecordFormProps) {
     setIsSubmitting(false);
   };
 
+  const handleSelectHistory = (record: PatientRecord) => {
+    setPatientWords(record.patientWords);
+    if (record.patientId) setPatientId(record.patientId);
+    if (record.patientName) setPatientName(record.patientName);
+    setShowHistory(false);
+  };
+
+  const formatDateTime = (isoString: string): string => {
+    const date = new Date(isoString);
+    return date.toLocaleString(language === 'ja' ? 'ja-JP' : 'en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
   return (
     <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-        <span className="mr-2">📝</span>
-        {t.form.title}
-      </h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-gray-800 flex items-center">
+          <span className="mr-2">📝</span>
+          {t.form.title}
+        </h2>
+        {chatbotHistory.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setShowHistory(!showHistory)}
+            className="px-4 py-2 bg-ami-blue hover:bg-ami-light-blue text-white text-sm font-semibold rounded-lg transition-colors"
+          >
+            {language === 'ja' 
+              ? `💬 チャット履歴 (${chatbotHistory.length})`
+              : `💬 Chat History (${chatbotHistory.length})`}
+          </button>
+        )}
+      </div>
+
+      {/* チャットボット履歴表示 */}
+      {showHistory && chatbotHistory.length > 0 && (
+        <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <h3 className="font-semibold text-gray-800 mb-3">
+            {language === 'ja' ? 'チャットボットの履歴から選択' : 'Select from Chatbot History'}
+          </h3>
+          <div className="space-y-2 max-h-60 overflow-y-auto">
+            {chatbotHistory.map((record) => (
+              <div
+                key={record.id}
+                onClick={() => handleSelectHistory(record)}
+                className="p-3 bg-white rounded-lg border border-gray-200 hover:border-ami-blue hover:shadow-md cursor-pointer transition-all"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-800 line-clamp-2 mb-1">
+                      {record.patientWords}
+                    </p>
+                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                      <span>{formatDateTime(record.recordedAt)}</span>
+                      {record.patientName && (
+                        <>
+                          <span>•</span>
+                          <span>{record.patientName}</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <span className="ml-2 text-ami-blue text-xs font-semibold">
+                    {language === 'ja' ? '選択' : 'Select'}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid md:grid-cols-2 gap-4">

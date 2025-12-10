@@ -18,6 +18,21 @@ export const getRecords = (): PatientRecord[] => {
   }
 };
 
+export const updateRecord = (record: PatientRecord): void => {
+  const records = getRecords();
+  const index = records.findIndex(r => r.id === record.id);
+  
+  if (index >= 0) {
+    // 既存のレコードを更新
+    records[index] = record;
+  } else {
+    // 見つからない場合は新規追加
+    records.unshift(record);
+  }
+  
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+};
+
 export const deleteRecord = (id: string): void => {
   const records = getRecords();
   const filtered = records.filter(r => r.id !== id);

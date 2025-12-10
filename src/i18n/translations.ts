@@ -48,6 +48,34 @@ export interface Translations {
     patientInfo: string;
     enterPatientInfo: string;
   };
+  clinic: {
+    title: string;
+    search: string;
+    searchPlaceholder: string;
+    scrape: string;
+    scrapeUrl: string;
+    scrapeUrlPlaceholder: string;
+    import: string;
+    importJson: string;
+    importCsv: string;
+    name: string;
+    address: string;
+    phone: string;
+    website: string;
+    specialties: string;
+    description: string;
+    scrapedAt: string;
+    sourceUrl: string;
+    delete: string;
+    deleteConfirm: string;
+    empty: string;
+    emptyDescription: string;
+    scraping: string;
+    scrapingSuccess: string;
+    scrapingError: string;
+    importSuccess: string;
+    importError: string;
+  };
 }
 
 export const translations: Record<Language, Translations> = {
@@ -99,6 +127,34 @@ export const translations: Record<Language, Translations> = {
       patientInfo: '患者情報',
       enterPatientInfo: '患者IDと患者名を入力してください（任意）',
     },
+    clinic: {
+      title: 'クリニックデータ管理',
+      search: '検索',
+      searchPlaceholder: 'クリニック名、住所、診療科目で検索...',
+      scrape: 'Webスクレイピング',
+      scrapeUrl: 'URL',
+      scrapeUrlPlaceholder: 'https://example.com/clinic',
+      import: 'データインポート',
+      importJson: 'JSONファイルをインポート',
+      importCsv: 'CSVファイルをインポート',
+      name: 'クリニック名',
+      address: '住所',
+      phone: '電話番号',
+      website: 'ウェブサイト',
+      specialties: '診療科目',
+      description: '説明',
+      scrapedAt: '取得日時',
+      sourceUrl: '元のURL',
+      delete: '削除',
+      deleteConfirm: 'このクリニックデータを削除しますか？',
+      empty: 'クリニックデータがありません',
+      emptyDescription: 'Webスクレイピングまたはデータインポートでクリニック情報を追加できます',
+      scraping: 'スクレイピング中...',
+      scrapingSuccess: 'スクレイピングが完了しました',
+      scrapingError: 'スクレイピングに失敗しました。CORS制限の可能性があります。',
+      importSuccess: 'データのインポートが完了しました',
+      importError: 'データのインポートに失敗しました',
+    },
   },
   en: {
     header: {
@@ -147,6 +203,34 @@ export const translations: Record<Language, Translations> = {
       savedToRecord: 'Saved to record',
       patientInfo: 'Patient Information',
       enterPatientInfo: 'Enter Patient ID and Name (Optional)',
+    },
+    clinic: {
+      title: 'Clinic Data Management',
+      search: 'Search',
+      searchPlaceholder: 'Search by name, address, specialties...',
+      scrape: 'Web Scraping',
+      scrapeUrl: 'URL',
+      scrapeUrlPlaceholder: 'https://example.com/clinic',
+      import: 'Import Data',
+      importJson: 'Import JSON File',
+      importCsv: 'Import CSV File',
+      name: 'Clinic Name',
+      address: 'Address',
+      phone: 'Phone',
+      website: 'Website',
+      specialties: 'Specialties',
+      description: 'Description',
+      scrapedAt: 'Scraped At',
+      sourceUrl: 'Source URL',
+      delete: 'Delete',
+      deleteConfirm: 'Are you sure you want to delete this clinic data?',
+      empty: 'No clinic data',
+      emptyDescription: 'Add clinic information by web scraping or data import',
+      scraping: 'Scraping...',
+      scrapingSuccess: 'Scraping completed successfully',
+      scrapingError: 'Scraping failed. CORS restrictions may apply.',
+      importSuccess: 'Data import completed successfully',
+      importError: 'Data import failed',
     },
   },
 };

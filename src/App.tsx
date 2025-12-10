@@ -3,6 +3,7 @@ import Logo from './components/Logo';
 import Chatbot from './components/Chatbot';
 import PatientRecordForm from './components/PatientRecordForm';
 import PatientRecordList from './components/PatientRecordList';
+import ClinicDataManager from './components/ClinicDataManager';
 import { PatientRecord } from './types/patientRecord';
 import { getRecords } from './utils/storage';
 import { useLanguage } from './contexts/LanguageContext';
@@ -64,8 +65,9 @@ function App() {
         </header>
         
         <div className="max-w-6xl mx-auto space-y-8">
-          <Chatbot onRecordAdded={loadRecords} />
-          <PatientRecordForm onRecordAdded={loadRecords} />
+          <Chatbot onRecordAdded={loadRecords} onClinicSaved={() => {}} />
+          <ClinicDataManager />
+          <PatientRecordForm onRecordAdded={loadRecords} recordsUpdated={records.length} />
           <PatientRecordList records={records} onRecordDeleted={loadRecords} />
         </div>
         
