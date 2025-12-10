@@ -1,0 +1,9 @@
+<svg width="200" height="200" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- メディカルクロス（医療のシンボル） -->
+  <circle cx="50" cy="50" r="45" fill="#1e40af"/>
+  <path d="M50 25 L50 75 M30 50 L70 50" stroke="white" stroke-width="8" stroke-linecap="round"/>
+  <!-- AIを表す波線 -->
+  <path d="M25 35 Q35 30, 45 35 T65 35" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M25 65 Q35 60, 45 65 T65 65" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>
+
